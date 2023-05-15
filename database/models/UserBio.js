@@ -22,6 +22,9 @@ function UserBioModel(sequelize) {
         hobby: {
             type: DataTypes.STRING,
         },
+        address: {
+            type: DataTypes.STRING,
+        },
     }, {
         sequelize,
         tableName: 'user_bios',
