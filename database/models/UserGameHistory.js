@@ -11,11 +11,21 @@ function UserGameHistoryModel(sequelize) {
         },
         user_id: {
             type: DataTypes.INTEGER,
-            // references: 
+            references: {
+                model: {
+                    tableName: 'users',
+                },
+                key: 'id'
+            },
         },
         game_id: {
             type: DataTypes.INTEGER,
-            // references: 
+            references: {
+                model: {
+                    tableName: 'games',
+                },
+                key: 'id'
+            },
         },
         score: {
             type: DataTypes.INTEGER,

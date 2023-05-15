@@ -11,7 +11,12 @@ function UserBioModel(sequelize) {
         },
         user_id: {
             type: DataTypes.INTEGER,
-            // references: 
+            references: {
+                model: {
+                    tableName: 'users',
+                },
+                key: 'id'
+            },
         },
         first_name: {
             type: DataTypes.STRING,
