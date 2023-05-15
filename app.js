@@ -1,6 +1,17 @@
 require('dotenv').config();
 
-console.log('hello, world');
+const {
+    Game,
+    User,
+    UserBio,
+    UserGameHistory,
+} = require('./database/models');
 
-console.log(process.env.INI_ENV);
-console.log(process.env.ENV_LAIN);
+(async function() {
+    const games = await Game.findAll();
+    const users = await User.findAll();
+    const bios = await UserBio.findAll();
+    const histories = await UserGameHistory.findAll();
+
+    console.log(games, users, bios, histories);
+})();
