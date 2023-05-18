@@ -55,4 +55,36 @@ userRouter.post('/form-dashboard/users/create', async function(req, res) {
     res.redirect('/dashboard/home');
 });
 
+// POST: /form-dashboard/users/update
+// endpoint yang bertugas menerima data updated user dari halaman dashboard update user
+userRouter.post('/form-dashboard/users/update', async function(req, res) {
+    const id = req.body.user_id;
+    const username = req.body.username;
+    const firstName = req.body.first_name;
+    const lastName = req.body.last_name;
+    const address = req.body.address;
+    const hobby = req.body.hobby;
+
+    // await User.update({
+    //     username,
+    // }, {
+    //     where: {
+    //         id,
+    //     },
+    // });
+
+    await UserBio.update({
+        first_name: firstName,
+        last_name: lastName,
+        address,
+        hobby,
+    }, {
+        where: {
+            user_id: id,
+        },
+    });
+
+    res.redirect('/dashboard/home');
+});
+
 module.exports = userRouter;
