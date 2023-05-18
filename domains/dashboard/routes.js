@@ -19,7 +19,6 @@ dashboardRouter.get('/dashboard/home', async function(req, res) {
         },
     });
 
-    console.log(users);
     res.render('dashboard/home', {
         users,
     });
@@ -29,10 +28,26 @@ dashboardRouter.get('/dashboard/users/create', function(req, res) {
     res.render('dashboard/users/create');
 });
 
-dashboardRouter.get('/dashboard/users/:id/update', function(req, res) {
+dashboardRouter.get('/dashboard/users/:id/update', async function(req, res) {
     const id = req.params.id;
 
-    res.render('dashboard/users/update');
+    const currentUser = await User.findOne({
+        where: {
+            id,
+        },
+        include: {
+            model: UserBio,
+            as: 'bio',
+        },
+    });
+
+    if (!currentUser) {
+        res.redirect('/dashboard/home');
+    }
+
+    res.render('dashboard/users/update', {
+        user: currentUser,
+    });
 });
 
 dashboardRouter.get('/dashboard/users/:id/delete', function(req, res) {
