@@ -17,6 +17,9 @@ dashboardRouter.get('/dashboard/home', async function(req, res) {
             model: UserBio,
             as: 'bio',
         },
+        order: [
+            ['id', 'ASC'],
+        ],
     });
 
     res.render('dashboard/home', {
