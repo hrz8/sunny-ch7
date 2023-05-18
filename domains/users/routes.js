@@ -6,7 +6,7 @@ const userRouter = express.Router();
 
 // POST: /api/v1/users/login
 // endpoint yang bertugas menerima data login form dari halaman dashboard/login
-userRouter.post('/api/v1/users/login', async function(req, res) {
+userRouter.post('/form-dashboard/users/login', async function(req, res) {
     const username = req.body.username;
     const password = req.body.password;
 
