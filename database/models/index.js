@@ -14,7 +14,13 @@ const UserGameHistory = require('./UserGameHistory')(sequelize);
 // table relationships
 // Game.hasMany(User);
 // User.hasMany(Game);
-// User.hasOne(UserBio);
+User.hasOne(UserBio, {
+    // foreign di tbl user
+    sourceKey: 'id',
+    // id di tbl user_bios
+    foreignKey: 'user_id',
+    as: 'bio',
+});
 
 // delivery
 module.exports = {
