@@ -111,6 +111,32 @@ userRouter.post('/form-dashboard/users/new-game', async function(req, res) {
     const gameId = req.body.game_id;
     const score = req.body.score;
 
+    // validate if user with that id exist or not
+    const currentUser = await User.findOne({
+        where: {
+            id: userId
+        },
+    });
+
+    if (!currentUser) {
+        res.redirect('/dashboard/home?error=userNotFound')
+
+        return;
+    }
+
+    // validate if game with that id exist or not
+    const currentGame = await Game.findOne({
+        where: {
+            id: gameId,
+        },
+    });
+
+    if (!currentGame) {
+        res.redirect('/dashboard/home?error=gameNotFound')
+
+        return;
+    }
+
     await UserGameHistory.create({
         user_id: userId,
         game_id: gameId,

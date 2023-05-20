@@ -8,6 +8,12 @@
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
+    <% if (error === 'userNotFound') { %>
+        <p style="color: red;">ID User yang kamu masukan tidak ketemu</p>
+    <% } %>
+    <% if (error === 'gameNotFound') { %>
+        <p style="color: red;">ID Game yang kamu masukan tidak ketemu</p>
+    <% } %>
     <h1>Home</h1>
 
     <h3>Users</h3>

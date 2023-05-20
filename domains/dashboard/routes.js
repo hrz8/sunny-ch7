@@ -12,6 +12,8 @@ dashboardRouter.get('/dashboard/login', function(req, res) {
 });
 
 dashboardRouter.get('/dashboard/home', async function(req, res) {
+    const error = req.query.error;
+
     const users = await User.findAll({
         include: {
             model: UserBio,
@@ -24,6 +26,7 @@ dashboardRouter.get('/dashboard/home', async function(req, res) {
 
     res.render('dashboard/home', {
         users,
+        error,
     });
 });
 
