@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { User } = require('../../database/models');
+const { User, UserGameHistory } = require('../../database/models');
 const { UserBio } = require('../../database/models');
 
 const userRouter = express.Router();
@@ -275,6 +275,30 @@ userRouter.delete('/api/v1/users/:id', async function(req, res) {
 
     res.json({
         message: 'success delete user',
+        result: 1,
+        error: null,
+    });
+});
+
+// POST: /api/v1/users/:userId/game/:gameId --> body ()
+userRouter.post('/api/v1/users/:userId/game/:gameId', async function(req, res) {
+    const userId = req.params.userId;
+    const gameId = req.params.gameId;
+
+    // validate if user with that id exist or not
+    // validate if game with that id exist or not
+
+    const score = req.body.score;
+
+    await UserGameHistory.create({
+        user_id: userId,
+        game_id: gameId,
+        score,
+        played_at: new Date(),
+    });
+
+    res.json({
+        message: 'user\'s game recorded',
         result: 1,
         error: null,
     });
