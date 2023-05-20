@@ -1,5 +1,5 @@
 const express = require('express');
-const { User, UserBio, Game } = require('../../database/models');
+const { User, UserBio, Game, UserGameHistory } = require('../../database/models');
 
 const dashboardRouter = express.Router();
 
@@ -78,6 +78,32 @@ dashboardRouter.get('/dashboard/users/:id/delete', async function(req, res) {
 
     res.render('dashboard/users/delete', {
         user: currentUser 
+    });
+});
+
+dashboardRouter.get('/dashboard/users/:id/histories', async function(req, res) {
+    const id = req.params.id;
+
+    const histories = await UserGameHistory.findAll({
+        where: {
+            user_id: id,
+        },
+        include: [
+            {
+                model: Game,
+                as: 'game',
+            },
+        ],
+        order: [
+            [
+                'played_at',
+                'DESC',
+            ],
+        ]
+    });  
+
+    res.render('dashboard/users/histories', {
+        histories,
     });
 });
 
