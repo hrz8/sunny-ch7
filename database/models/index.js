@@ -21,6 +21,16 @@ User.hasOne(UserBio, {
     foreignKey: 'user_id',
     as: 'bio',
 });
+User.hasMany(UserGameHistory, {
+    sourceKey: 'id',
+    foreignKey: 'user_id',
+    as: 'game_histories',
+});
+UserGameHistory.hasOne(Game, {
+    sourceKey: 'game_id',
+    foreignKey: 'id',
+    as: 'game',
+});
 
 // delivery
 module.exports = {

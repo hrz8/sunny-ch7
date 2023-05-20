@@ -183,12 +183,24 @@ userRouter.get('/api/v1/users/:id', async function(req, res) {
         where: {
             id,
         },
-        include: {
-            model: UserBio,
-            as: 'bio',
-        },
-    });
-
+        include: [
+            {
+                model: UserBio,
+                as: 'bio',
+            },
+            {
+                model: UserGameHistory,
+                as: 'game_histories',
+                include: [
+                    {
+                        model: Game,
+                        as: 'game',
+                    },
+                ],
+            },
+        ],
+    });    
+    
     if (!currentUser) {
         res.status(404);
         res.json({
@@ -209,6 +221,12 @@ userRouter.get('/api/v1/users/:id', async function(req, res) {
             full_name: `${currentUser.bio.first_name} ${currentUser.bio.last_name}`,
             hobby: currentUser.bio.hobby,
             address: currentUser.bio.address,
+            game_histories: currentUser.game_histories.map((history) => ({
+                game_id: history.game_id,
+                name: history.game.name,
+                score: history.score,
+                played_at: history.played_at,
+            })),
         },
         error: null,
     });
