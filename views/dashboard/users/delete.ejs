@@ -8,5 +8,26 @@
 </head>
 <body>
     <h1>Delete User</h1>
+
+    <a href="/dashboard/home">Back</a>
+
+    <form action="/form-dashboard/users/delete" method="post">
+        <table>
+            <tr>
+                <td>ID</td>
+                <td><%= user.id %></td>
+            </tr>
+            <tr>
+                <td>Username</td>
+                <td><%= user.username %></td>
+            </tr>
+            <tr>
+                <td>Role</td>
+                <td><%= user.role %></td>
+            </tr>
+        </table>
+        <input type="hidden" name="user_id" value="<%= user.id %>">
+        <button type="submit">Delete</button>
+    </form>
 </body>
 </html>

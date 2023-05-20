@@ -87,4 +87,26 @@ userRouter.post('/form-dashboard/users/update', async function(req, res) {
     res.redirect('/dashboard/home');
 });
 
+// POST: /form-dashboard/users/delete
+userRouter.post('/form-dashboard/users/delete', async function(req, res) {
+    const id = req.body.user_id;
+
+    try {
+        await UserBio.destroy({
+            where: {
+                user_id: id,
+            },
+        });
+        await User.destroy({
+            where: {
+                id,
+            },
+        });
+    } catch (error) {
+        console.error(error);
+    }
+
+    res.redirect('/dashboard/home');
+});
+
 module.exports = userRouter;

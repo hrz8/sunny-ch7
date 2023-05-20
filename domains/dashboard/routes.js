@@ -53,10 +53,22 @@ dashboardRouter.get('/dashboard/users/:id/update', async function(req, res) {
     });
 });
 
-dashboardRouter.get('/dashboard/users/:id/delete', function(req, res) {
+dashboardRouter.get('/dashboard/users/:id/delete', async function(req, res) {
     const id = req.params.id;
 
-    res.render('dashboard/users/delete');
+    const currentUser = await User.findOne({
+        where: {
+            id,
+        },
+        include: {
+            model: UserBio,
+            as: 'bio',
+        },
+    });
+
+    res.render('dashboard/users/delete', {
+        user: currentUser 
+    });
 });
 
 module.exports = dashboardRouter;
