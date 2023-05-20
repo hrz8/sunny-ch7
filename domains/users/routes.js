@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { User, UserGameHistory } = require('../../database/models');
+const { User, UserGameHistory, Game } = require('../../database/models');
 const { UserBio } = require('../../database/models');
 
 const userRouter = express.Router();
@@ -100,6 +100,22 @@ userRouter.post('/form-dashboard/users/delete', async function(req, res) {
         where: {
             id,
         },
+    });
+
+    res.redirect('/dashboard/home');
+});
+
+// POST: /form-dashboard/users/new-game
+userRouter.post('/form-dashboard/users/new-game', async function(req, res) {
+    const userId = req.body.user_id;
+    const gameId = req.body.game_id;
+    const score = req.body.score;
+
+    await UserGameHistory.create({
+        user_id: userId,
+        game_id: gameId,
+        score,
+        played_at: new Date(),
     });
 
     res.redirect('/dashboard/home');
@@ -286,7 +302,39 @@ userRouter.post('/api/v1/users/:userId/game/:gameId', async function(req, res) {
     const gameId = req.params.gameId;
 
     // validate if user with that id exist or not
+    const currentUser = await User.findOne({
+        where: {
+            id: userId
+        },
+    });
+
+    if (!currentUser) {
+        res.status(404);
+        res.json({
+            message: 'failed when logging user game history',
+            result: null,
+            error: 'user with that id is not found'
+        });
+
+        return;
+    }
     // validate if game with that id exist or not
+    const currentGame = await Game.findOne({
+        where: {
+            id: gameId,
+        },
+    });
+
+    if (!currentGame) {
+        res.status(404);
+        res.json({
+            message: 'failed when logging user game history',
+            result: null,
+            error: 'game with that id is not found'
+        });
+
+        return;
+    }
 
     const score = req.body.score;
 

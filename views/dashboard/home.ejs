@@ -42,5 +42,30 @@
             <% }) %>
         </tbody>
     </table>
+
+    <h3>User New Game</h3>
+
+    <form action="/form-dashboard/users/new-game" method="post">
+        <label for="user_id">User ID</label>
+        <input type="text" name="user_id" id="user_id">
+
+
+        <br />
+        <br />
+
+        <label for="game_id">Game ID</label>
+        <input type="text" name="game_id" id="game_id">
+
+        <br />
+        <br />
+
+        <label for="score">Score</label>
+        <input type="number" name="score" id="score">
+
+        <br />
+        <br />
+
+        <button type="submit">Submit</button>
+    </form>
 </body>
 </html>
