@@ -1,5 +1,5 @@
 const express = require('express');
-const { User, UserBio } = require('../../database/models');
+const { User, UserBio, Game } = require('../../database/models');
 
 const dashboardRouter = express.Router();
 
@@ -24,8 +24,15 @@ dashboardRouter.get('/dashboard/home', async function(req, res) {
         ],
     });
 
+    const games = await Game.findAll({
+        order: [
+            ['id', 'ASC']
+        ]
+    });
+
     res.render('dashboard/home', {
         users,
+        games,
         error,
     });
 });
