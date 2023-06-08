@@ -1,12 +1,16 @@
 const express = require('express');
 const { Room } = require('../../database/models');
+const authentication = require('../../middlewares/authentication');
 
 const roomRouter = express.Router();
 
-roomRouter.post('/api/v1/rooms', async function(req, res) {
+// endpoint untuk create room
+roomRouter.post('/api/v1/rooms', authentication, async function(req, res) {
+    const ROCK_PAPER_SCISSOR = 1;
+
     const room = await Room.create({
-        game_id: 1,
-        created_by: 1,
+        game_id: ROCK_PAPER_SCISSOR,
+        created_by: req.user.id,
     });
 
     res.json({
