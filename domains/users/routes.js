@@ -1,5 +1,8 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const { User, UserGameHistory, Game } = require('../../database/models');
 const { UserBio } = require('../../database/models');
@@ -152,6 +155,56 @@ userRouter.post('/form-dashboard/users/new-game', async function(req, res) {
     });
 
     res.redirect('/dashboard/home');
+});
+
+userRouter.post('/api/v1/users/login', async function(req, res) {
+    const aud = req.header('x-audience');
+
+    const username = req.body.username;
+    const password = req.body.password;
+
+    const user = await User.findOne({
+        where: {
+            username: username,
+        },
+    });
+
+    if (!user) {
+        res.json({
+            message: 'failed',
+            result: null,
+            error: 'invalid user/password',
+        });
+
+        return;
+    }
+
+    const isPasswordValid = bcrypt.compareSync(password, user.password);
+    if (!isPasswordValid) {
+        res.json({
+            message: 'failed',
+            result: null,
+            error: 'invalid user/password',
+        });
+
+        return;
+    }
+
+    const token = jwt.sign({
+        sub: String(user.id),
+        iss: 'chapter7',
+        aud: aud || 'restful',
+    }, JWT_SECRET, {
+        expiresIn: '1m',
+    });
+
+    res.json(res.json({
+        message: 'success login',
+        result: {
+            token: token,
+        },
+        error: null,
+    }));
 });
 
 // GET: /api/v1/users -> list user
