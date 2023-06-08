@@ -5,7 +5,7 @@ const dashboardRouter = express.Router();
 
 dashboardRouter.get('/', function(req, res) {
     res.redirect('/dashboard/login');
-})
+});
 
 dashboardRouter.get('/dashboard/login', function(req, res) {
     res.render('dashboard/login');
