@@ -17,8 +17,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/static', express.static('public/static'));
 
-app.use(gameRouter);
 app.use(dashboardRouter);
+app.use(gameRouter);
 app.use(userRouter);
 
 app.listen(PORT, function() {
